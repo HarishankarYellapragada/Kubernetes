@@ -66,10 +66,6 @@ systemctl enable --now kubelet
 ```
 kubeadm init --apiserver-advertise-address=<host-ip> --pod-network-cidr=192.168.0.0/16
 ```
-##### Deploy Calico network
-```
-kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
-```
 ##### Cluster join command
 ```
 kubeadm token create --print-join-command
@@ -81,6 +77,16 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
+```
+### Choose network between Calico or Flannel
+##### 1. Deploy Calico network
+
+```
+kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
+```
+##### 2. Deploy Flannel network for Kubernetes v1.17+ 
+```
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
 ## On Kworker
 ##### Join the cluster
